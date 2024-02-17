@@ -8,8 +8,8 @@ namespace ExcelComparator
     {
         static void Main(string[] args)
         {
-            string file1Path = "1.xlsx";
-            string file2Path = "2.xlsx";
+            string file1Path = "1.xls";
+            string file2Path = "2.xls";
             string licPath = @"C:\GitHub\Excel-Compare Utility\Excel-Compare Utility\bin\Debug\Aspose.Total.lic";
             Aspose.Cells.License lic = new Aspose.Cells.License();
             lic.SetLicense(licPath);
@@ -51,17 +51,20 @@ namespace ExcelComparator
 
         static void HighlightMissingColumns(Worksheet sourceWorksheet, Worksheet targetWorksheet)
         {
-            Style styleMissing = targetWorksheet.Workbook.CreateStyle();
-            styleMissing.ForegroundColor = System.Drawing.Color.Red;
-            styleMissing.Pattern = BackgroundType.Solid;
-            StyleFlag flag = new StyleFlag();
+            //Style styleMissing = targetWorksheet.Workbook.CreateStyle();
+           
+
             for (int columnIndex = 0; columnIndex <= sourceWorksheet.Cells.MaxDataColumn; columnIndex++)
             {
                 string columnName = sourceWorksheet.Cells[0, columnIndex].StringValue;
                 if (!WorksheetContainsColumn(targetWorksheet, columnName))
                 {
+                    Style styleMissing = targetWorksheet.Cells.GetCellStyle(0, columnIndex);
+                    styleMissing.ForegroundColor = System.Drawing.Color.Yellow;
+                    styleMissing.Pattern = BackgroundType.Solid;
+                    StyleFlag flag = new StyleFlag();
                     // Highlight missing column in target worksheet
-                    targetWorksheet.Cells.ApplyColumnStyle(columnIndex, styleMissing, flag);
+                    targetWorksheet.Cells[0, columnIndex].SetStyle(styleMissing, flag);
                 }
             }
         }
