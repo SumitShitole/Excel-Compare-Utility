@@ -3,3 +3,13 @@
 ################################################################################
 
 /bin/Debug/Aspose.Words.dll
+/bin/Debug/Aspose.Total.lic
+/bin/Debug/Aspose.Pdf.dll
+/bin/Debug/Aspose.Cells.dll
+/.vs/Excel-Compare Utility/v16/.suo
+*.exe
+/bin/Aspose.Words.dll
+/bin/Aspose.Total.lic
+/bin/Aspose.Pdf.dll
+/bin/Aspose.Cells.dll
+/obj/Debug
