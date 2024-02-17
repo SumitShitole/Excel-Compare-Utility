@@ -18,3 +18,5 @@
 /bin/Debug/2.xls
 /bin/Debug/1.xlsx
 /bin/Debug/2.xlsx
+*.pdb
+/bin/Debug/Excel-Compare Utility.exe.config
