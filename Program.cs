@@ -1,15 +1,14 @@
 ﻿using Aspose.Cells;
-using System;
-using System.Data;
+using System.Drawing;
 
 namespace ExcelComparator
-{
+{ 
     class Program
     {
         static void Main(string[] args)
         {
-            string file1Path = "1.xls";
-            string file2Path = "2.xls";
+            string file1Path = "1.xlsx";
+            string file2Path = "2.xlsx";
             string licPath = @"C:\GitHub\Excel-Compare Utility\Excel-Compare Utility\bin\Debug\Aspose.Total.lic";
             Aspose.Cells.License lic = new Aspose.Cells.License();
             lic.SetLicense(licPath);
@@ -63,8 +62,8 @@ namespace ExcelComparator
                     styleMissing.ForegroundColor = System.Drawing.Color.Yellow;
                     styleMissing.Pattern = BackgroundType.Solid;
                     StyleFlag flag = new StyleFlag();
-                    // Highlight missing column in target worksheet
-                    targetWorksheet.Cells[0, columnIndex].SetStyle(styleMissing, flag);
+                    //targetWorksheet.Cells.Columns[columnIndex].ApplyStyle(styleMissing, new StyleFlag { FontColor = true });
+                    sourceWorksheet.Cells[0, columnIndex].SetStyle(styleMissing);
                 }
             }
         }
@@ -87,7 +86,7 @@ namespace ExcelComparator
             Worksheet worksheet2 = workbook2.Worksheets[0];
 
             Style styleMismatch = workbook1.CreateStyle();
-            styleMismatch.ForegroundColor = System.Drawing.Color.Yellow;
+            styleMismatch.ForegroundColor = Color.Yellow;
             styleMismatch.Pattern = BackgroundType.Solid;
             StyleFlag flag = new StyleFlag();
 
@@ -102,7 +101,7 @@ namespace ExcelComparator
                 if (targetRowIndex == -1)
                 {
                     // Highlight missing row in worksheet2
-                    worksheet1.Cells.ApplyRowStyle(rowIndex, styleMismatch, flag);
+                    worksheet1.Cells[rowIndex].SetStyle(styleMismatch);
                 }
                 else
                 {
