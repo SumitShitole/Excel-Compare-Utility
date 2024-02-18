@@ -2,7 +2,7 @@
 using System.Drawing;
 
 namespace ExcelComparator
-{ 
+{
     class Program
     {
         static void Main(string[] args)
@@ -25,7 +25,8 @@ namespace ExcelComparator
             HighlightMissingColumns(workbook2.Worksheets[0], workbook1.Worksheets[0]);
 
             // Compare the two workbooks
-            CompareWorkbooks(workbook1, workbook2);
+            CompareWorkbooks(workbook1, workbook2, false);
+            CompareWorkbooks(workbook2, workbook1, true);
 
             // Save the updated workbooks with highlighted differences
             workbook1.Save(file1Path);
@@ -50,16 +51,13 @@ namespace ExcelComparator
 
         static void HighlightMissingColumns(Worksheet sourceWorksheet, Worksheet targetWorksheet)
         {
-            //Style styleMissing = targetWorksheet.Workbook.CreateStyle();
-           
-
             for (int columnIndex = 0; columnIndex <= sourceWorksheet.Cells.MaxDataColumn; columnIndex++)
             {
                 string columnName = sourceWorksheet.Cells[0, columnIndex].StringValue;
                 if (!WorksheetContainsColumn(targetWorksheet, columnName))
                 {
                     Style styleMissing = targetWorksheet.Cells.GetCellStyle(0, columnIndex);
-                    styleMissing.ForegroundColor = System.Drawing.Color.Yellow;
+                    styleMissing.ForegroundColor = System.Drawing.Color.Red;
                     styleMissing.Pattern = BackgroundType.Solid;
                     StyleFlag flag = new StyleFlag();
                     //targetWorksheet.Cells.Columns[columnIndex].ApplyStyle(styleMissing, new StyleFlag { FontColor = true });
@@ -80,7 +78,7 @@ namespace ExcelComparator
             return false;
         }
 
-        static void CompareWorkbooks(Workbook workbook1, Workbook workbook2)
+        static void CompareWorkbooks(Workbook workbook1, Workbook workbook2, bool OnlyHighlightAdditionalRows)
         {
             Worksheet worksheet1 = workbook1.Worksheets[0];
             Worksheet worksheet2 = workbook2.Worksheets[0];
@@ -101,10 +99,17 @@ namespace ExcelComparator
                 if (targetRowIndex == -1)
                 {
                     // Highlight missing row in worksheet2
-                    worksheet1.Cells[rowIndex].SetStyle(styleMismatch);
+                    //worksheet1.Cells.Rows[rowIndex].ApplyStyle(styleMismatch, flag);
+                    // worksheet1.Cells[rowIndex, worksheet1.Cells.MaxDataColumn].SetStyle(styleMismatch);
+                    Aspose.Cells.Range range = worksheet1.Cells.CreateRange(rowIndex, 1, 1, worksheet1.Cells.MaxDataColumn);
+                    range.SetStyle(styleMismatch);
                 }
                 else
                 {
+                    if (OnlyHighlightAdditionalRows)
+                    {
+                        continue;
+                    }
                     // Compare values of the rows
                     for (int columnIndex = 1; columnIndex <= worksheet1.Cells.MaxDataColumn; columnIndex++)
                     {
