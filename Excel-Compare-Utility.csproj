@@ -7,7 +7,7 @@
     <ProjectGuid>{C8C5A457-5EB8-42BE-90D6-81CC72ADE8EF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Excel_Compare_Utility</RootNamespace>
-    <AssemblyName>Excel-Compare Utility</AssemblyName>
+    <AssemblyName>Excel-Compare-Utility</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -1,4 +1,5 @@
 ﻿using Aspose.Cells;
+using System;
 using System.Drawing;
 
 namespace ExcelComparator
@@ -7,9 +8,16 @@ namespace ExcelComparator
     {
         static void Main(string[] args)
         {
-            string file1Path = "1.xlsx";
-            string file2Path = "2.xlsx";
-            string licPath = @"C:\GitHub\Excel-Compare Utility\Excel-Compare Utility\bin\Debug\Aspose.Total.lic";
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Please provide filenames for both Excel files.");
+                return;
+            }
+
+            string file1Path = args[0];
+            string file2Path = args[1];
+
+            string licPath = "Aspose.Total.lic";
             Aspose.Cells.License lic = new Aspose.Cells.License();
             lic.SetLicense(licPath);
 
@@ -101,8 +109,13 @@ namespace ExcelComparator
                     // Highlight missing row in worksheet2
                     //worksheet1.Cells.Rows[rowIndex].ApplyStyle(styleMismatch, flag);
                     // worksheet1.Cells[rowIndex, worksheet1.Cells.MaxDataColumn].SetStyle(styleMismatch);
-                    Aspose.Cells.Range range = worksheet1.Cells.CreateRange(rowIndex, 1, 1, worksheet1.Cells.MaxDataColumn);
-                    range.SetStyle(styleMismatch);
+                    //Aspose.Cells.Range range = worksheet1.Cells.CreateRange(rowIndex, 1, 1, worksheet1.Cells.MaxDataColumn);
+                    //range.SetStyle(styleMismatch);
+                    Style styleMissing = worksheet1.Cells.GetCellStyle(rowIndex, 0);
+                    styleMissing.ForegroundColor = System.Drawing.Color.Red;
+                    styleMissing.Pattern = BackgroundType.Solid;
+                    //targetWorksheet.Cells.Columns[columnIndex].ApplyStyle(styleMissing, new StyleFlag { FontColor = true });
+                    worksheet1.Cells[rowIndex, 0].SetStyle(styleMissing);
                 }
                 else
                 {
